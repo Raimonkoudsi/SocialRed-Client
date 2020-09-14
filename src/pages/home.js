@@ -1,22 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Grid from '@material-ui/core/Grid';
 
-const home = () => {
+import Scream from '../components/Scream';
+
+export const Home = () => {
+
+    const [screams, setScreams] = useState(null);
 
     useEffect(() => {
         axios.get('/screams')
             .then(res => {
-
+                setScreams(res.data)
             })
-    }, [])
+            .catch(err => console.log(err));
+    });
 
+    let recentScreamsMarkup = screams ?
+        (screams.map((scream) => <Scream key={scream.screamId} scream={scream} />))
+        :
+        <p>Loading. . . </p>
 
     return (
-        <Grid container spacing={16}>
+
+        <Grid container spacing={10}>
             <Grid item sm={8} xs={12}>
-                content...
+                {recentScreamsMarkup}
             </Grid>
             <Grid item sm={4} xs={12}>
                 profile...
@@ -25,4 +35,4 @@ const home = () => {
     )
 }
 
-export default home;
+//export default home;

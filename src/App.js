@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/Navbar';
 
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 //pages
-import home from './pages/home';
+import { Home } from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 
@@ -30,7 +30,10 @@ const theme = createMuiTheme({
       contrastText: '#fff'
     },
   },
-})
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 function App() {
   return (
@@ -40,7 +43,7 @@ function App() {
           <NavBar />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={home} />
+              <Route exact path="/" component={Home} />
               <Route path="/login" component={login} />
               <Route path="/signup" component={signup} />
             </Switch>
