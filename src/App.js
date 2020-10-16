@@ -2,37 +2,42 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './App.css';
+import "./styles/app.scss";
+
 import NavBar from './components/Navbar';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import green from '@material-ui/core/colors/green';
 
 //pages
 import { Home } from './pages/home';
-import login from './pages/login';
+import Login from './pages/login';
 import signup from './pages/signup';
+
+
 
 //tema para la pagina entera
 const theme = createMuiTheme({
   palette: {
     primary: {
-      // Purple and green play nicely together.
-      light: '#33c9dc',
-      main: '#1b5e20',
-      dark: '#008394',
-      contrastText: '#fff'
+      light: '#2E6B33',
+      main: green[900],
+      dark: green[800],
+      contrastText: '#fff',
+
     },
     secondary: {
-      // This is green.A700 as hex.
-      light: '#ff6333',
-      main: '#33691e',
-      dark: '#b22a00',
+      light: '#2E6B33',
+      main: '#1b5e20',
+      dark: green[800],
       contrastText: '#fff'
     },
-  },
-  typography: {
-    useNextVariants: true,
-  },
+    typography: {
+      useNextVariants: true,
+    } 
+  }
+
 });
 
 function App() {
@@ -44,7 +49,7 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/login" component={login} />
+              <Route path="/login" component={Login} />
               <Route path="/signup" component={signup} />
             </Switch>
           </div>

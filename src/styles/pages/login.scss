@@ -1,0 +1,26 @@
+.login-form {
+  text-align: center;
+
+  img {
+    margin: 20px auto 20px auto;
+    width: 50px;
+  }
+  .login-title {
+    margin: 10px auto 20px auto;
+  }
+  .login-textfield {
+    margin: 10px auto 20px auto;
+  }
+  .login-button {
+    margin-top: 10px;
+    position: relative;
+  }
+  .login-error {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0;
+  }
+  .login-progress {
+    position: absolute;
+  }
+}
