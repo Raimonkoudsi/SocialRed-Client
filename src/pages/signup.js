@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
 import AppIcon from '../images/green-plant.svg';
-
-import axios from 'axios';
 
 import { Link } from 'react-router-dom';
 
@@ -16,7 +14,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
+//redux
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
     ...theme.spreadThis
@@ -26,6 +26,7 @@ const styles = (theme) => ({
 const Signup = (props) => {
 
     const { classes } = props;
+    const { UI: { loading } } = props;
 
     const [form, setForm] = useState({
         email:'',
@@ -34,13 +35,15 @@ const Signup = (props) => {
         handle: ''
     });
 
-    const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        setErrors(props.UI.errors);
+    }, [props.UI.errors])
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
-  
 
         const newUserData = {
             email: form.email,
@@ -48,23 +51,8 @@ const Signup = (props) => {
             confirmPassword: form.confirmPassword,
             handle: form.handle
         }
-        setLoading(true);
 
-        axios.post('/signup', newUserData)
-            .then((res) => {
-                console.log(res.data);
-                localStorage.setItem("#BIdToken", `Bearer ${res.data.token}`);
-                setLoading(false);
-                props.history.push('/');
-            })
-            .catch((err) => {
-                if(form.password.length<=5) {
-                    errors.password= 'The password must be at least 6 characters';
-                } else {
-                    setErrors(err.response.data);
-                }
-                setLoading(false);
-            });
+        props.signupUser(newUserData, props.history);
     }
 
     const changeHandler = e => {
@@ -86,8 +74,8 @@ const Signup = (props) => {
                             type="email"
                             label="Email"
                             className={classes.textField}
-                            helperText={errors.email}
-                            error={errors.email ? true : false}
+                            helperText={errors?.email}
+                            error={errors?.email ? true : false}
                             value={form.email}
                             onChange={changeHandler}
                             fullWidth
@@ -98,8 +86,8 @@ const Signup = (props) => {
                             type="password"
                             label="Password"
                             className={classes.textField}
-                            helperText={errors.password}
-                            error={errors.password ? true : false}
+                            helperText={errors?.password}
+                            error={errors?.password ? true : false}
                             value={form.password}
                             onChange={changeHandler}
                             fullWidth
@@ -110,8 +98,8 @@ const Signup = (props) => {
                             type="password"
                             label="Confirm Password"
                             className={classes.textField}
-                            helperText={errors.confirmPassword}
-                            error={errors.confirmPassword ? true : false}
+                            helperText={errors?.confirmPassword}
+                            error={errors?.confirmPassword ? true : false}
                             value={form.confirmPassword}
                             onChange={changeHandler}
                             fullWidth
@@ -122,15 +110,15 @@ const Signup = (props) => {
                             type="text"
                             label="Handle"
                             className={classes.textField}
-                            helperText={errors.handle}
-                            error={errors.handle ? true : false}
+                            helperText={errors?.handle}
+                            error={errors?.handle ? true : false}
                             value={form.handle}
                             onChange={changeHandler}
                             fullWidth
                         />
-                        {errors.general && (
+                        {errors?.general && (
                             <Typography variant="body2" className={classes.customError}>
-                                {errors.general}
+                                {errors?.general}
                             </Typography>
                         )}
                         <Button
@@ -156,7 +144,15 @@ const Signup = (props) => {
 }
 
 Signup.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired,
+    signupUser: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI
+})
+
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(Signup));

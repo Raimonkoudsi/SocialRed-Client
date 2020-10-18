@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
-import AppIcon from '../images/green-plant.svg';
+//import axios from 'axios';
 
-import axios from 'axios';
+import AppIcon from '../images/green-plant.svg';
 
 import { Link } from 'react-router-dom';
 
@@ -15,9 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-//import { formats } from "dayjs/locale/*";
 
 
+//redux
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
     ...theme.spreadThis
@@ -26,20 +28,23 @@ const styles = (theme) => ({
 
 const Login = (props) => {
 
-    const { classes } = props;
+    const { UI: { loading } } = props;
 
     const [form, setForm] = useState({
         email:'',
         password: ''
     });
 
-    const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
 
 
     const changeHandler = e => {
         setForm({...form, [e.target.name]: e.target.value})
     }
+
+    useEffect(() => {
+        setErrors(props.UI.errors);
+    }, [props.UI.errors])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -48,19 +53,9 @@ const Login = (props) => {
             email: form.email,
             password: form.password
         }
-        setLoading(true);
 
-        axios.post('/login', userData)
-            .then((res) => {
-                console.log(res.data);
-                localStorage.setItem("#BIdToken", `Bearer ${res.data.token}`);
-                setLoading(false);
-                props.history.push('/');
-            })
-            .catch((err) => {
-                setErrors(err.response.data);
-                setLoading(false);
-            });
+        props.loginUser(userData, props.history);
+
     }
 
     return (
@@ -75,10 +70,10 @@ const Login = (props) => {
                             id="email"
                             name="email"
                             type="email"
-                            label="email"
+                            label="Email"
                             className="login-textfield"
-                            helperText={errors.email}
-                            error={errors.email ? true : false}
+                            helperText={errors?.email}
+                            error={errors?.email ? true : false}
                             value={form.email}
                             onChange={changeHandler}
                             fullWidth
@@ -87,17 +82,17 @@ const Login = (props) => {
                             id="password"
                             name="password"
                             type="password"
-                            label="password"
+                            label="Password"
                             className="login-textfield"
-                            helperText={errors.password}
-                            error={errors.password ? true : false}
+                            helperText={errors?.password}
+                            error={errors?.password ? true : false}
                             value={form.password}
                             onChange={changeHandler}
                             fullWidth
                         />
-                        {errors.general && (
+                        {errors?.general && (
                             <Typography variant="body2" className="login-error">
-                                {errors.general}
+                                {errors?.general}
                             </Typography>
                         )}
                         <Button
@@ -123,7 +118,19 @@ const Login = (props) => {
 }
 
 Login.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    loginUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Login);
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI
+});
+
+const mapActionsToProps = {
+    loginUser
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Login));

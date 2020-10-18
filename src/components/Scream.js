@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -31,7 +31,7 @@ const Scream = (props) => {
     dayjs.extend(relativeTime);
 
     //datos de la bd
-    const { classes, scream: { body, createdAd, userImage, userHandle, screamId, likeCount, commentCount } } = props
+    const { classes, scream: { body, createdAd, userImage, userHandle, /*screamId, likeCount, commentCount*/ } } = props
 
     return (
         <Card className={classes.card}>

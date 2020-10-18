@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import AuthRoute from './util/AuthRoute';
+import jwtDecode from 'jwt-decode';
+
 import './App.css';
 import "./styles/app.scss";
 
@@ -15,7 +18,13 @@ import { Home } from './pages/home';
 import Login from './pages/login';
 import signup from './pages/signup';
 
+import axios from 'axios';
 
+//redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { SET_AUTHENTICATED } from './redux/types';
+import { logoutUser, getUserData } from './redux/actions/userActions';
 
 //tema para la pagina entera
 const theme = createMuiTheme({
@@ -40,23 +49,46 @@ const theme = createMuiTheme({
 
 });
 
-function App() {
+
+    const token= localStorage.FBIdToken;
+
+    console.log(token);
+
+    if(token) {
+      const decodedToken = jwtDecode(token);
+
+      if(decodedToken.exp * 1000 < Date.now()) {
+        window.location.href = '/login';
+        store.dispatch(logoutUser())
+      } else {
+        store.dispatch({ type: SET_AUTHENTICATED });
+        axios.defaults.headers.common['Authorization'] = token;
+        store.dispatch(getUserData());
+      }
+
+    }
+
+
+class App extends React.Component {
+
+  render() {
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="App">
-        <Router>
-          <NavBar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={signup} />
-            </Switch>
-          </div>
-        </Router>
-      </div>
+      <Provider store={store}>
+          <Router>
+            <NavBar />
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <AuthRoute exact path="/login" component={Login} />
+                <AuthRoute exact path="/signup" component={signup} />
+              </Switch>
+            </div>
+          </Router>
+      </Provider>
     </MuiThemeProvider>
   );
+  }
 }
 
 export default App;

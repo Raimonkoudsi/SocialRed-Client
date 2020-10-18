@@ -10,11 +10,19 @@ export const Home = () => {
     const [screams, setScreams] = useState(null);
 
     useEffect(() => {
-        axios.get('/screams')
+
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        axios.get('/screams', {cancelToken: source.token})
             .then(res => {
                 setScreams(res.data)
             })
             .catch(err => console.log(err));
+
+            return () => {
+                source.cancel();
+            };
     });
 
     let recentScreamsMarkup = screams ?
