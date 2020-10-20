@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AuthRoute from './util/AuthRoute';
 import jwtDecode from 'jwt-decode';
 
-import './App.css';
 import "./styles/app.scss";
 
 import NavBar from './components/Navbar';

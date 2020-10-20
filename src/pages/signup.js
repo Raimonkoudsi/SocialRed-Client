@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
@@ -24,6 +25,7 @@ const styles = (theme) => ({
 
 
 const Signup = (props) => {
+    const { register, handleSubmit } = useForm();
 
     const { classes } = props;
     const { UI: { loading } } = props;
@@ -39,11 +41,11 @@ const Signup = (props) => {
 
     useEffect(() => {
         setErrors(props.UI.errors);
-    }, [props.UI.errors])
+    }, [props.UI.errors]);
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const onSubmit = (event) => {
+        //event.preventDefault();
 
         const newUserData = {
             email: form.email,
@@ -55,7 +57,7 @@ const Signup = (props) => {
         props.signupUser(newUserData, props.history);
     }
 
-    const changeHandler = e => {
+    const handleChange = e => {
         setForm({...form, [e.target.name]: e.target.value})
     }
 
@@ -67,7 +69,7 @@ const Signup = (props) => {
                 <Grid item sm>
                     <img src={AppIcon} alt="Social Plant" className={classes.image} />
                     <Typography variant="h2" className={classes.pageTitle}>Signup</Typography>
-                    <form noValidate onSubmit={handleSubmit}>
+                    <form noValidate onSubmit={handleSubmit(onSubmit)}>
                         <TextField
                             id="email"
                             name="email"
@@ -77,8 +79,9 @@ const Signup = (props) => {
                             helperText={errors?.email}
                             error={errors?.email ? true : false}
                             value={form.email}
-                            onChange={changeHandler}
+                            onChange={handleChange}
                             fullWidth
+                            ref={register({ required: true })}
                         />
                         <TextField
                             id="password"
@@ -89,8 +92,9 @@ const Signup = (props) => {
                             helperText={errors?.password}
                             error={errors?.password ? true : false}
                             value={form.password}
-                            onChange={changeHandler}
+                            onChange={handleChange}
                             fullWidth
+                            ref={register({ required: true })}
                         />
                         <TextField
                             id="confirmPassword"
@@ -101,8 +105,9 @@ const Signup = (props) => {
                             helperText={errors?.confirmPassword}
                             error={errors?.confirmPassword ? true : false}
                             value={form.confirmPassword}
-                            onChange={changeHandler}
+                            onChange={handleChange}
                             fullWidth
+                            ref={register({ required: true })}
                         />
                         <TextField
                             id="handle"
@@ -113,8 +118,9 @@ const Signup = (props) => {
                             helperText={errors?.handle}
                             error={errors?.handle ? true : false}
                             value={form.handle}
-                            onChange={changeHandler}
+                            onChange={handleChange}
                             fullWidth
+                            ref={register({ required: true })}
                         />
                         {errors?.general && (
                             <Typography variant="body2" className={classes.customError}>
