@@ -7,14 +7,13 @@ import dayjs from 'dayjs';
 
 //components
 import EditDetails from './EditDetails';
+import MyButton from '../Button';
 
 //mui
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 
 //icons
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -25,7 +24,7 @@ import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 
 //redux
 import { connect } from 'react-redux';
-import { logoutUser, uploadImage } from '../redux/actions/userActions';
+import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 
 const Profile = (props) => {
     const {user: {credentials: { handle, createdAt, imageUrl, bio, website, location }, loading, authenticated }} = props;
@@ -57,11 +56,9 @@ const Profile = (props) => {
                 <div className="image-wrapper">
                     <img src={imageUrl} alt="profile" className="profile-image" />
                     <input type="file" hidden="hidden" id="imageInput" onChange={handleImageChange} />
-                    <Tooltip title="Edit profile picture" placement="top">
-                        <IconButton onClick={handleEditPicture} className="button">
-                            <EditIcon color="primary" />
-                        </IconButton>
-                    </Tooltip>
+                    <MyButton tip="Edit profile picture" onClick={handleEditPicture} btnClassName="button">
+                        <EditIcon color="primary"/>
+                    </MyButton>
                 </div>
                 <hr/>
                 <div className="profile-details">
@@ -89,11 +86,9 @@ const Profile = (props) => {
                     <CalendarToday color="primary"/>{' '}
                     <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                 </div>
-                <Tooltip title="Logout" placement="top">
-                    <IconButton onClick={handleLogout}>
-                        <KeyboardReturn color="primary"/>
-                    </IconButton>
-                </Tooltip>
+                <MyButton tip="Logout" onClick={handleLogout}>
+                    <KeyboardReturn color="primary"/>
+                </MyButton>
                 <EditDetails/>
             </div>
         </Paper>

@@ -1,0 +1,68 @@
+.card-scream {
+  display: flex;
+  margin-bottom: 20px;
+  position: relative;
+
+  .image {
+    min-width: 200px;
+  }
+
+  .content {
+    padding: 25px;
+    object-fit: cover;
+
+    .delete-button {
+      position: absolute;
+      left: 90%;
+      top: 10%;
+    }
+  }
+}
+
+.scream {
+  .separator {
+    border: none;
+    margin: 4px;
+  }
+
+  .separator-visible {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .scream-close {
+    position: absolute;
+    left: 91%;
+    top: 6%;
+  }
+
+  .scream-image {
+    max-width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .scream-content {
+    padding: 20px;
+
+    .spinner {
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  }
+
+  //comments
+  .comment-image {
+    max-width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .comment-data {
+    margin-left: 20px;
+  }
+}

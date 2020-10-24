@@ -1,0 +1,22 @@
+.post {
+  .post-close {
+    position: absolute;
+    left: 91%;
+    top: 6%;
+  }
+
+  .post-textfield {
+    margin: 10px auto 20px auto;
+    font-family: "Titillium Web", "Abel", sans-serif !important;
+  }
+
+  .post-submit {
+    position: relative;
+    float: right;
+    margin-top: 10;
+
+    .post-progress {
+      position: absolute;
+    }
+  }
+}

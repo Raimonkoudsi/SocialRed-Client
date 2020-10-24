@@ -6,14 +6,15 @@ import jwtDecode from 'jwt-decode';
 
 import "./styles/app.scss";
 
-import NavBar from './components/Navbar';
+import NavBar from './components/layout/Navbar';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import green from '@material-ui/core/colors/green';
+import brown from '@material-ui/core/colors/brown';
 
 //pages
-import { Home } from './pages/home';
+import Home from './pages/home';
 import Login from './pages/login';
 import signup from './pages/signup';
 
@@ -37,8 +38,8 @@ const theme = createMuiTheme({
     },
     secondary: {
       light: '#2E6B33',
-      main: '#1b5e20',
-      dark: green[800],
+      main: brown[800],
+      dark: brown[700],
       contrastText: '#fff'
     },
     typography: {
@@ -49,7 +50,7 @@ const theme = createMuiTheme({
 });
 
 
-    const token= localStorage.FBIdToken;
+    const token = localStorage.FBIdToken;
 
     console.log(token);
 

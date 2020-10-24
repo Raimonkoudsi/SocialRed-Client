@@ -27,6 +27,10 @@ body {
 
 .nav-container {
   margin: auto;
+
+  & svg {
+    color: #fff;
+  }
 }
 
 .green-color {

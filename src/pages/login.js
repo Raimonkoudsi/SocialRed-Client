@@ -92,7 +92,7 @@ const Login = (props) => {
                             value={form.password}
                             onChange={handleChange}
                             fullWidth
-                            ref={register({ required: true })}
+                            ref={register({ required: true, minLength:6 })}
                         />
                         {errors?.general && (
                             <Typography variant="body2" className="login-error">
