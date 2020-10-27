@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 
 const Profile = (props) => {
-    const {user: {credentials: { handle, createdAt, imageUrl, bio, website, location }, loading, authenticated }} = props;
+    const {user: {credentials: { handle, createdAd, imageUrl, bio, website, location }, loading, authenticated }} = props;
     
     const handleImageChange = (event) => {
         
@@ -84,7 +84,7 @@ const Profile = (props) => {
                         </Fragment>
                     )}
                     <CalendarToday color="primary"/>{' '}
-                    <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
+                    <span>Joined {dayjs(createdAd).format('MMM YYYY')}</span>
                 </div>
                 <MyButton tip="Logout" onClick={handleLogout}>
                     <KeyboardReturn color="primary"/>

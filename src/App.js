@@ -17,6 +17,7 @@ import brown from '@material-ui/core/colors/brown';
 import Home from './pages/home';
 import Login from './pages/login';
 import signup from './pages/signup';
+import user from './pages/user';
 
 import axios from 'axios';
 
@@ -82,6 +83,8 @@ class App extends React.Component {
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={signup} />
+                <Route exact path="/users/:handle" component={user} />
+                <Route exact path="/users/:handle//scream/:screamId" component={user} />
               </Switch>
             </div>
           </Router>

@@ -7,16 +7,16 @@ import dayjs from 'dayjs';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-const Comments = (props) => {
-    const { comments } = props;
+const Comments = ({comments = []}) => {
+    //const { comments } = props;
 
     return(
         <Grid container>
             {comments.map((comment, index) => {
-                const { body, createdAt, userImage, userHandle } = comment;
+                const { body, createdAd, userImage, userHandle } = comment;
 
                 return(
-                    <Fragment key={createdAt}>
+                    <Fragment key={createdAd}>
                         <Grid item sm={12}>
                             <Grid container>
                                 <Grid item sm={2}>
@@ -33,7 +33,7 @@ const Comments = (props) => {
                                             {userHandle}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary">
-                                            {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
+                                            {dayjs(createdAd).format('h:mm a, MMMM DD YYYY')}
                                         </Typography>
                                         <hr className="separator"/>
                                         <Typography variant="body1">

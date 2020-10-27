@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
@@ -24,22 +24,47 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 //redux
 import { connect } from 'react-redux';
-import { getScream } from '../../redux/actions/dataActions';
+import { getScream, clearErrors } from '../../redux/actions/dataActions';
 
 
 const ScreamDialog = (props) => {
     const [open, setOpen] = useState(false);
 
+    const [oldPath, setOldPath] = useState('');
+    const [newPath, setNewPath] = useState('');
+
+    useEffect(() => {
+        if(props.openDialog) {
+            handleOpen();
+        }
+    }, [])
+
     const handleOpen = () => {
+
+        let oldPath = window.location.pathname;
+
+        const { userHandle, screamId } = props;
+        const newPath = `/users/${userHandle}/scream/${screamId}`;
+
+        if(oldPath === newPath) oldPath = `/users/${userHandle}`;
+        
+        window.history.pushState(null, null, newPath);
+
         setOpen(true);
+        setOldPath(oldPath);
+        setNewPath(newPath);
 
         props.getScream(props.screamId);
     };
     const handleClose = () => {
+        window.history.pushState(null, null, oldPath);
+
         setOpen(false);
+
+        props.clearErrors();
     };
 
-    const {scream: { screamId, body, createdAt, likeCount, commentCount, userImage, userHandle, comments}, UI: { loading }} = props;
+    const {scream: { screamId, body, createdAd, likeCount, commentCount, userImage, userHandle, comments}, UI: { loading }} = props;
 
     const dialogMarkup = loading ? (
         <div className="spinner">
@@ -61,7 +86,7 @@ const ScreamDialog = (props) => {
                 </Typography>
                 <hr className="separator"/>
                 <Typography variant="body2" color="textSecondary">
-                    {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
+                    {dayjs(createdAd).format('h:mm a, MMMM DD YYYY')}
                 </Typography>
                 <hr className="separator"/>
                 <Typography variant="body1">
@@ -110,6 +135,7 @@ const ScreamDialog = (props) => {
 };
 
 ScreamDialog.propTypes = {
+    clearErrors: PropTypes.func.isRequired,
     getScream:PropTypes.func.isRequired,
     screamId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
@@ -123,7 +149,8 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-    getScream
+    getScream,
+    clearErrors
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ScreamDialog);
