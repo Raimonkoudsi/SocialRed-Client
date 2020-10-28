@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -22,8 +22,96 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { connect } from 'react-redux';
 import { markNotificationsRead } from '../../redux/actions/userActions';
 
-const Notifications = () => {
-    const [anchorEl] = useState(null);
+const Notifications = (props) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const notifications = props.notifications;
+
+    dayjs.extend(relativeTime);
+
+    const handleOpen = (event) => {
+        setAnchorEl(event.target);
+    }
+    const handleClose = () => {
+        setAnchorEl(null);
+    }
+    const onMenuOpened = () => {
+        let unreadNotificationsIds = 
+            props.notifications
+                .filter(not => !not.read)
+                .map(not => not.notificationId);
+
+        props.markNotificationsRead(unreadNotificationsIds);
+    }
+    
+    let notificationIcon;
+    if(notifications && notifications.length > 0) {
+        notifications.filter(not => not.read === false).length > 0 ? 
+            notificationIcon = (
+                <Badge badgeContent={notifications.filter(not => not.read === false).length}
+                    color="secondary">
+                        <NotificationsIcon />
+                    </Badge>
+            ) : (
+                notificationIcon = <NotificationsIcon />
+            )
+    } else {
+        notificationIcon = <NotificationsIcon />
+    }
+
+    let notificationMarkup =
+        notifications && notifications.length > 0 ? (
+            notifications.map(not => {
+                const verb = not.type === 'like' ? 'liked' : 'commented on';
+                const time = dayjs(not.createdAd).fromNow();
+                const iconColor = not.read ? 'primary' : 'secondary';
+                const icon = not.type === 'like' ? (
+                    <FavoriteIcon color={iconColor} style={{ marginRight: 10}} />
+                ) : (
+                    <ChatIcon color={iconColor} style={{ marginRight: 10}} />
+                )
+
+                return (
+                    <MenuItem key={not.createdAd} onClick={handleClose}>
+                        {icon}
+                        <Typography
+                            component={Link}
+                            color="default"
+                            variant="body"
+                            to={`/users/${not.recipient}/scream/${not.screamId}`}
+                        >
+                            {not.sender} {verb} your scream {time}
+                        </Typography>
+                    </MenuItem>
+                )
+            })
+        ) : (
+            <MenuItem onClick={handleClose}>
+                You have no notifications yet
+            </MenuItem>
+        )
+
+    return (
+        <Fragment>
+            <Tooltip placement="top" title="Notifications">
+                <IconButton 
+                    aria-owns={anchorEl ? 'simple-menu' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleOpen}
+                >
+                    {notificationIcon}
+                </IconButton>
+            </Tooltip>
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                onEntered={onMenuOpened}
+            >
+                {notificationMarkup}
+            </Menu>
+        </Fragment>
+    )
 }
 
 Notifications.propTypes = {

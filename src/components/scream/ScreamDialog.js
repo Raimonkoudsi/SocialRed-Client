@@ -57,6 +57,13 @@ const ScreamDialog = (props) => {
         props.getScream(props.screamId);
     };
     const handleClose = () => {
+
+        console.log(oldPath);
+        console.log(newPath);
+
+        if(newPath===oldPath)
+            oldPath = `/users/${userHandle}`;
+        
         window.history.pushState(null, null, oldPath);
 
         setOpen(false);

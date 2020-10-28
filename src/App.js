@@ -84,7 +84,7 @@ class App extends React.Component {
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={signup} />
                 <Route exact path="/users/:handle" component={user} />
-                <Route exact path="/users/:handle//scream/:screamId" component={user} />
+                <Route exact path="/users/:handle/scream/:screamId" component={user} />
               </Switch>
             </div>
           </Router>
