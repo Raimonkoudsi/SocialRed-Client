@@ -1,0 +1,40 @@
+.card {
+  display: flex;
+  margin-bottom: 20px;
+
+  .cover {
+    min-width: 200px;
+    object-fit: cover;
+  }
+
+  .content {
+    width: 100%;
+    flex-direction: column;
+    padding: 25;
+
+    .handle {
+      width: 60px;
+      height: 18px;
+      background-color: $primary;
+      margin-bottom: 7px;
+    }
+    .date {
+      height: 14px;
+      width: 100px;
+      background-color: rgba(0, 0, 0, 0.3);
+      margin-bottom: 10px;
+    }
+    .full-line {
+      height: 15px;
+      width: 90%;
+      background-color: rgba(0, 0, 0, 0.4);
+      margin-bottom: 10px;
+    }
+    .half-line {
+      height: 15px;
+      width: 50%;
+      background-color: rgba(0, 0, 0, 0.4);
+      margin-bottom: 10px;
+    }
+  }
+}

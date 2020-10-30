@@ -50,6 +50,8 @@ const theme = createMuiTheme({
 
 });
 
+axios.defaults.baseURL = "https://us-central1-socialbd-4fab1.cloudfunctions.net/api";
+
 
     const token = localStorage.FBIdToken;
 

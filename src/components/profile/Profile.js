@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 //components
 import EditDetails from './EditDetails';
 import MyButton from '../Button';
+import ProfileSkeleton from '../../util/ProfileSkeleton';
 
 //mui
 import Paper from '@material-ui/core/Paper';
@@ -106,7 +107,7 @@ const Profile = (props) => {
                 </Button>
             </div>
         </Paper>
-    )) : (<p>...loading</p>);
+    )) : <ProfileSkeleton/>;
 
     return profileMarkup;
 };
