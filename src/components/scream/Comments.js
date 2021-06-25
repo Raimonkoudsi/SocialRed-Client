@@ -7,8 +7,8 @@ import dayjs from 'dayjs';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-const Comments = (props) => {
-    const { comments } = props;
+const Comments = ({comments = []}) => {
+    //const { comments } = props;
 
     return(
         <Grid container>

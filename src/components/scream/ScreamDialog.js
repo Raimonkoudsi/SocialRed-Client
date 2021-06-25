@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
@@ -24,51 +24,19 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 //redux
 import { connect } from 'react-redux';
-import { getScream, clearErrors } from '../../redux/actions/dataActions';
+import { getScream } from '../../redux/actions/dataActions';
 
 
 const ScreamDialog = (props) => {
     const [open, setOpen] = useState(false);
 
-    const [oldPath, setOldPath] = useState('');
-    const [newPath, setNewPath] = useState('');
-
-    useEffect(() => {
-        if(props.openDialog) {
-            handleOpen();
-        }
-    }, [])
-
     const handleOpen = () => {
-
-        let oldPath = window.location.pathname;
-
-        const { userHandle, screamId } = props;
-        const newPath = `/users/${userHandle}/scream/${screamId}`;
-
-        if(oldPath === newPath) oldPath = `/users/${userHandle}`;
-        
-        window.history.pushState(null, null, newPath);
-
         setOpen(true);
-        setOldPath(oldPath);
-        setNewPath(newPath);
 
         props.getScream(props.screamId);
     };
     const handleClose = () => {
-
-        console.log(oldPath);
-        console.log(newPath);
-
-        if(newPath===oldPath)
-            oldPath = `/users/${userHandle}`;
-        
-        window.history.pushState(null, null, oldPath);
-
         setOpen(false);
-
-        props.clearErrors();
     };
 
     const {scream: { screamId, body, createdAd, likeCount, commentCount, userImage, userHandle, comments}, UI: { loading }} = props;
@@ -142,7 +110,6 @@ const ScreamDialog = (props) => {
 };
 
 ScreamDialog.propTypes = {
-    clearErrors: PropTypes.func.isRequired,
     getScream:PropTypes.func.isRequired,
     screamId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
@@ -156,8 +123,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-    getScream,
-    clearErrors
+    getScream
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(ScreamDialog);

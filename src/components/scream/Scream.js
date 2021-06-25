@@ -53,7 +53,7 @@ const Scream = (props) => {
                     <ChatIcon color="primary"/>
                 </MyButton>
                 <span>{commentCount} comments</span>
-                <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={props.openDialog} />
+                <ScreamDialog screamId={screamId} userHandle={userHandle} />
             </CardContent>
         </Card>
     )
@@ -61,8 +61,7 @@ const Scream = (props) => {
 
 Scream.propTypes = {
     user: PropTypes.object.isRequired,
-    scream: PropTypes.object.isRequired,
-    openDialog: PropTypes.bool
+    scream: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

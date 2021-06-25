@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 //components
 import MyButton from '../Button';
 import PostScream from '../scream/PostScream';
-import Notifications from './Notifications';
 
 //redux
 import { connect } from 'react-redux';
@@ -17,6 +16,7 @@ import Button from '@material-ui/core/Button';
 
 //icons
 import HomeIcon from '@material-ui/icons/Home';
+import Notifications from '@material-ui/icons/Notifications';
 
 const Navbar = (props) => {
     const { authenticated } = props;
@@ -32,7 +32,9 @@ const Navbar = (props) => {
                                 <HomeIcon/>
                             </MyButton>
                         </Link>
-                        <Notifications/>
+                        <MyButton tip="Notifications">
+                            <Notifications/>
+                        </MyButton>
                     </Fragment>
                 ) : (
                     <Fragment>
